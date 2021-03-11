@@ -1,8 +1,8 @@
 # ALB Security Group (Traffic Internet -> ALB)
-resource "aws_security_group" "load-balancer" {
+resource "aws_security_group" "lb_secuirity_group" {
   name        = "load_balancer_security_group"
   description = "Controls access to the ALB"
-  vpc_id      = aws_vpc.production-vpc.id
+  vpc_id      = aws_vpc.vpc.id
 
   ingress {
     from_port   = 80
@@ -27,16 +27,16 @@ resource "aws_security_group" "load-balancer" {
 }
 
 # ECS Security group (traffic ALB -> ECS, ssh -> ECS)
-resource "aws_security_group" "ecs" {
+resource "aws_security_group" "ecs_secuirity_group" {
   name        = "ecs_security_group"
   description = "Allows inbound access from the ALB only"
-  vpc_id      = aws_vpc.production-vpc.id
+  vpc_id      = aws_vpc.vpc.id
 
   ingress {
     from_port       = 0
     to_port         = 0
     protocol        = "-1"
-    security_groups = [aws_security_group.load-balancer.id]
+    security_groups = [aws_security_group.lb_secuirity_group.id]
   }
 
   ingress {
@@ -55,16 +55,16 @@ resource "aws_security_group" "ecs" {
 }
 
 # RDS Security Group (traffic ECS -> RDS)
-resource "aws_security_group" "rds" {
+resource "aws_security_group" "rds_secuirity_group" {
   name        = "rds-security-group"
   description = "Allows inbound access from ECS only"
-  vpc_id      = aws_vpc.production-vpc.id
+  vpc_id      = aws_vpc.vpc.id
 
   ingress {
     protocol        = "tcp"
     from_port       = "5432"
     to_port         = "5432"
-    security_groups = [aws_security_group.ecs.id]
+    security_groups = [aws_security_group.ecs_secuirity_group.id]
   }
 
   egress {

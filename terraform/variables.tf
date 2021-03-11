@@ -5,7 +5,6 @@ variable "region" {
   default     = "us-west-1"
 }
 
-
 # networking
 
 variable "public_subnet_1_cidr" {
@@ -30,7 +29,6 @@ variable "availability_zones" {
   default     = ["us-west-1a", "us-west-1b"]
 }
 
-
 # load balancer
 
 variable "health_check_path" {
@@ -38,34 +36,39 @@ variable "health_check_path" {
   default     = "/ping/"
 }
 
-
 # ecs
 
 variable "ecs_cluster_name" {
   description = "Name of the ECS cluster"
   default     = "production"
 }
+
 variable "amis" {
   description = "Which AMI to spawn."
   default = {
     us-west-1 = "ami-0667a9cc6a93f50fe"
   }
 }
+
 variable "instance_type" {
   default = "t2.micro"
 }
+
 variable "docker_image_url_django" {
   description = "Docker image to run in the ECS cluster"
   default     = "<AWS_ACCOUNT_ID>.dkr.ecr.us-west-1.amazonaws.com/django-app:latest"
 }
+
 variable "docker_image_url_nginx" {
   description = "Docker image to run in the ECS cluster"
   default     = "<AWS_ACCOUNT_ID>.dkr.ecr.us-west-1.amazonaws.com/nginx:latest"
 }
+
 variable "app_count" {
   description = "Number of Docker containers to run"
   default     = 2
 }
+
 variable "allowed_hosts" {
   description = "Domain name for allowed hosts"
   default     = "YOUR DOMAIN NAME"
@@ -86,7 +89,6 @@ variable "ssh_pubkey_file" {
   default     = "~/.ssh/id_rsa.pub"
 }
 
-
 # auto scaling
 
 variable "autoscale_min" {
@@ -101,7 +103,6 @@ variable "autoscale_desired" {
   description = "Desired autoscale (number of EC2)"
   default     = "4"
 }
-
 
 # rds
 
@@ -120,7 +121,6 @@ variable "rds_instance_class" {
   description = "RDS instance type"
   default     = "db.t2.micro"
 }
-
 
 # domain
 

@@ -1,9 +1,9 @@
-resource "aws_db_subnet_group" "production" {
+resource "aws_db_subnet_group" "db_subnet_group" {
   name       = "main"
-  subnet_ids = [aws_subnet.private-subnet-1.id, aws_subnet.private-subnet-2.id]
+  subnet_ids = [aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id]
 }
 
-resource "aws_db_instance" "production" {
+resource "aws_db_instance" "db_instance" {
   identifier              = "production"
   name                    = var.rds_db_name
   username                = var.rds_username
@@ -14,8 +14,8 @@ resource "aws_db_instance" "production" {
   instance_class          = var.rds_instance_class
   allocated_storage       = "20"
   storage_encrypted       = false
-  vpc_security_group_ids  = [aws_security_group.rds.id]
-  db_subnet_group_name    = aws_db_subnet_group.production.name
+  vpc_security_group_ids  = [aws_security_group.rds_secuirity_group.id]
+  db_subnet_group_name    = aws_db_subnet_group.db_subnet_group.name
   multi_az                = false
   storage_type            = "gp2"
   publicly_accessible     = false

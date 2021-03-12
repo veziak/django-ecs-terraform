@@ -25,6 +25,7 @@ data "template_file" "app" {
     rds_password            = var.rds_password
     rds_hostname            = aws_db_instance.db_instance.address
     allowed_hosts           = var.allowed_hosts
+    debug                   = var.django_debug
   }
 }
 

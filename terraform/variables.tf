@@ -74,6 +74,10 @@ variable "allowed_hosts" {
   default     = "YOUR DOMAIN NAME"
 }
 
+variable "django_debug" {
+  description = "Value for Django application Debug parameter"
+  default = "False"
+}
 
 # logs
 

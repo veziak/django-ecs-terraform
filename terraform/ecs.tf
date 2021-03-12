@@ -1,4 +1,4 @@
-resource "aws_ecs_cluster" "production" {
+resource "aws_ecs_cluster" "ecs_cluster" {
   name = "${var.ecs_cluster_name}-cluster"
 }
 
@@ -39,9 +39,9 @@ resource "aws_ecs_task_definition" "app" {
   }
 }
 
-resource "aws_ecs_service" "production" {
+resource "aws_ecs_service" "ecs_service" {
   name            = "${var.ecs_cluster_name}-service"
-  cluster         = aws_ecs_cluster.production.id
+  cluster         = aws_ecs_cluster.ecs_cluster.id
   task_definition = aws_ecs_task_definition.app.arn
   iam_role        = aws_iam_role.ecs-service-role.arn
   desired_count   = var.app_count

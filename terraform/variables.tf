@@ -124,7 +124,10 @@ variable "rds_instance_class" {
 
 # domain
 
-variable "certificate_arn" {
-  description = "AWS Certificate Manager ARN for validated domain"
-  default     = "YOUR ARN"
+variable "domain_name" {
+  description = "Domain name"
+}
+
+variable "route53_zone" {
+  description = "Route53 zone name"
 }

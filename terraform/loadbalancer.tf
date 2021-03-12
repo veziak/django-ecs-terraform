@@ -31,7 +31,7 @@ resource "aws_alb_listener" "ecs_alb_http_listener" {
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = var.certificate_arn
+  certificate_arn   = aws_acm_certificate_validation.acm_cert_validation.certificate_arn
   depends_on        = [aws_alb_target_group.default_target_group]
 
   default_action {

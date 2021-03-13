@@ -4,7 +4,7 @@ resource "aws_db_subnet_group" "db_subnet_group" {
 }
 
 resource "aws_db_instance" "db_instance" {
-  identifier              = "production"
+  identifier              = var.db_instance_id
   name                    = var.rds_db_name
   username                = var.rds_username
   password                = var.rds_password

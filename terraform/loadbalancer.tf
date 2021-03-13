@@ -8,11 +8,12 @@ resource "aws_lb" "load_balancer" {
 }
 
 # Target group
-resource "aws_alb_target_group" "default_target_group" {
-  name     = "${var.ecs_cluster_name}-tg"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = aws_vpc.vpc.id
+resource "aws_lb_target_group" "default_target_group" {
+  name        = "${var.ecs_cluster_name}-tg"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = aws_vpc.vpc.id
+  target_type = "ip"
 
   health_check {
     path                = var.health_check_path
@@ -32,10 +33,10 @@ resource "aws_alb_listener" "ecs_alb_http_listener" {
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
   certificate_arn   = aws_acm_certificate_validation.acm_cert_validation.certificate_arn
-  depends_on        = [aws_alb_target_group.default_target_group]
+  depends_on        = [aws_lb_target_group.default_target_group]
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_alb_target_group.default_target_group.arn
+    target_group_arn = aws_lb_target_group.default_target_group.arn
   }
 }

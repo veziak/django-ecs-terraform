@@ -5,6 +5,10 @@ variable "region" {
   default     = "us-west-1"
 }
 
+variable "aws_account_id" {
+  description = "AWS Account id"
+}
+
 # networking
 
 variable "public_subnet_1_cidr" {
@@ -43,13 +47,6 @@ variable "ecs_cluster_name" {
   default     = "production"
 }
 
-variable "amis" {
-  description = "Which AMI to spawn."
-  default = {
-    us-west-1 = "ami-0667a9cc6a93f50fe"
-  }
-}
-
 variable "instance_type" {
   default = "t2.micro"
 }
@@ -82,7 +79,7 @@ variable "django_debug" {
 # logs
 
 variable "log_retention_in_days" {
-  default = 30
+  default = 7
 }
 
 
@@ -124,6 +121,9 @@ variable "rds_password" {
 variable "rds_instance_class" {
   description = "RDS instance type"
   default     = "db.t2.micro"
+}
+variable "db_instance_id" {
+  description = "RDS database instance id"
 }
 
 # domain

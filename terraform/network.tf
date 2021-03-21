@@ -23,6 +23,7 @@ resource "aws_subnet" "private_subnet_1" {
   vpc_id            = aws_vpc.vpc.id
   availability_zone = var.availability_zones[0]
 }
+
 resource "aws_subnet" "private_subnet_2" {
   cidr_block        = var.private_subnet_2_cidr
   vpc_id            = aws_vpc.vpc.id
@@ -63,14 +64,14 @@ resource "aws_eip" "nat_gateway_elastic_ip" {
 }
 
 # NAT gateway
-resource "aws_nat_gateway" "nat-gw" {
+resource "aws_nat_gateway" "nat-gateway" {
   allocation_id = aws_eip.nat_gateway_elastic_ip.id
   subnet_id     = aws_subnet.public_subnet_1.id
   depends_on    = [aws_eip.nat_gateway_elastic_ip]
 }
 resource "aws_route" "nat_gateway_route" {
   route_table_id         = aws_route_table.private_route_table.id
-  nat_gateway_id         = aws_nat_gateway.nat-gw.id
+  nat_gateway_id         = aws_nat_gateway.nat-gateway.id
   destination_cidr_block = "0.0.0.0/0"
 }
 
@@ -84,4 +85,20 @@ resource "aws_route" "public_internet_gateway_route" {
   route_table_id         = aws_route_table.public_route_table.id
   gateway_id             = aws_internet_gateway.internet_gateway.id
   destination_cidr_block = "0.0.0.0/0"
+}
+
+
+#######################
+# VPC Endpoint for SSM
+#######################
+data "aws_vpc_endpoint_service" "ssm" {
+  service = "ssm"
+}
+
+resource "aws_vpc_endpoint" "ssm" {
+  vpc_id             = aws_vpc.vpc.id
+  service_name       = data.aws_vpc_endpoint_service.ssm.service_name
+  vpc_endpoint_type  = "Interface"
+  security_group_ids = [aws_security_group.ecs_secuirity_group.id]
+  subnet_ids         = [aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id]
 }

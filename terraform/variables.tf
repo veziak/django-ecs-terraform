@@ -44,7 +44,6 @@ variable "health_check_path" {
 
 variable "ecs_cluster_name" {
   description = "Name of the ECS cluster"
-  default     = "production"
 }
 
 variable "instance_type" {
@@ -134,4 +133,10 @@ variable "domain_name" {
 
 variable "route53_zone" {
   description = "Route53 zone name"
+}
+
+# bastion
+
+variable "bastion_allowed_cidr" {
+  description = "Ip allowed to connect to bastion host"
 }

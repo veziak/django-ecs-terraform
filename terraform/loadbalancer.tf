@@ -9,11 +9,10 @@ resource "aws_lb" "load_balancer" {
 
 # Target group
 resource "aws_lb_target_group" "default_target_group" {
-  name        = "${var.ecs_cluster_name}-tg"
+  name        = "${var.ecs_cluster_name}-target-group"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = aws_vpc.vpc.id
-  target_type = "ip"
 
   health_check {
     path                = var.health_check_path

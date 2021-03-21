@@ -3,7 +3,9 @@
     "name": "django-app",
     "image": "${docker_image_url_django}",
     "essential": true,
+    "cpu": 10,
     "memory": 512,
+    "links": [],
     "portMappings": [
       {
         "containerPort": 8000,
@@ -44,6 +46,12 @@
         "value": "${debug}"
       }
     ],
+    "mountPoints": [
+      {
+        "containerPath": "/usr/src/app/staticfiles",
+        "sourceVolume": "static_volume"
+      }
+    ],
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
@@ -57,12 +65,20 @@
     "name": "nginx",
     "image": "${docker_image_url_nginx}",
     "essential": true,
+    "cpu": 10,
     "memory": 128,
+    "links": ["django-app"],
     "portMappings": [
       {
         "containerPort": 80,
         "hostPort": 80,
         "protocol": "tcp"
+      }
+    ],
+    "mountPoints": [
+      {
+        "containerPath": "/usr/src/app/staticfiles",
+        "sourceVolume": "static_volume"
       }
     ],
     "logConfiguration": {
